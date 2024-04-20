@@ -1,0 +1,34 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> <!-- implements the bootstrap stylesheet-->
+    <title>Sense HAT Data</title>
+</head>
+<body>
+    <h1 style="text-align: center; font-size: 100px;">Sense HAT Data</h1>
+    <div id="data-container">
+        <div class="row">
+            <p style="text-align: center; font-size: 50px;" class="col-lg-6" id="temperature"></p> <!--displays the recorded temperature from the sense hat emulator-->
+            <p style="text-align: center; font-size: 50px;" class="col-lg-6" id="humidity"></p> <!-- displays the recorded humidity from the sense hat emulator-->
+        </div>
+        <p style="text-align: center; font-size: 40px;" id="warning"></p> <!--displays the warning message when it meets the warning checkers requirements -->
+    </div>
+
+    <script>
+        //fetches the data that has been collected from the sense hat emulator
+        function fetchData() {
+            fetch('/data')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('temperature').innerText = `Temperature: ${data.temperature}°C`; // fetches the temperature data from app.py
+                document.getElementById('humidity').innerText = `Humidity: ${data.humidity}%`; // fetches the humidity data from app.py
+                document.getElementById('warning').innerText = data.warning; // fetches the warning message from ap.py
+            });
+        }
+
+        setInterval(fetchData, 3000); // Fetch data every 3 seconds
+        fetchData(); // Initial fetch      
+    </script>                                
+</body>
+</html>
